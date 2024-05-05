@@ -3,6 +3,10 @@ from rclpy.node import Node
 
 from geometry_msgs.msg import Twist
 
+from turtlesim.srv import Kill, Spawn, SetPen
+
+import time
+
 class TriangleDrawer(Node):
 
     def __init__(self):
@@ -13,22 +17,34 @@ class TriangleDrawer(Node):
             qos_profile=10
         )
 
-        self.timer = self.create_timer(
-            timer_period_sec=2,
-            callback=self.triangle_path
-        )
-
-    def triangle_path(self):
+    def publicar_desenho(self, angular_z, linear_x):
         msg = Twist()
-        msg.angular.z = 3.0
-        msg.linear.x = 2.0
+        msg.angular.z = angular_z
+        msg.linear.x = linear_x
         self.publisher.publish(msg)
+
+def fazer_desenho(publisher):
+
+    caminho = [(0.0, 0.0),
+               (2.2, 0.0),
+               (0.0, 3.0),
+               (2.1, 0.0),
+               (0.0, 3.0),
+               (2.06, 0.0),
+               (0.0, 2.96),
+               (0.0, 0.0)]
+    
+    for angular_z, linear_x in caminho:
+        publisher.publicar_desenho(angular_z, linear_x)
+        time.sleep(1)
 
 def main():
     rclpy.init()
-    dt = TriangleDrawer()
-    rclpy.spin(dt)
-    dt.destroy_node()
+    publisher = TriangleDrawer()
+
+    fazer_desenho(publisher)
+
+    publisher.destroy_node()
     rclpy.shutdown()
 
 if __name__ == '__main__':
