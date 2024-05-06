@@ -58,6 +58,7 @@ Para instalar e executar este projeto, siga os seguintes passos:
 7. Abra outra janela de terminal no mesmo diretório (```~/main_workspace/.```) e execute os seguintes comandos novamente para que o ROS e os pacotes do workspace funcionem na janela de terminal atual:
 
 ```source /opt/ros/humble/setup.bash```
+
 ```source install/local_setup.bash```
 
 8. Digite o seguinte comando para que a tartaruga ande e desenhe um triângulo amarelo com seu percurso:
